@@ -32,7 +32,7 @@ const Carousel = () => {
   };
 
   const autoPlay = () => {
-    if (window.innerWidth < 800) return;
+    if (!carouselRef.current || window.innerWidth < 800) return;
     const scrollAmount = carouselRef.current.offsetWidth;
     const currentScrollLeft = carouselRef.current.scrollLeft;
     const maxScrollLeft = carouselRef.current.scrollWidth - carouselRef.current.offsetWidth;
@@ -54,8 +54,10 @@ const Carousel = () => {
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
-      const id = setTimeout(autoPlay, 3000);
-      setTimeoutId(id);
+      if (carouselRef.current) {
+        const id = setTimeout(autoPlay, 3000);
+        setTimeoutId(id);
+      }
     };
 
     startAutoPlay();
@@ -136,7 +138,7 @@ const Carousel = () => {
           </div>
         ))}
       </div>
-      <div className="carousel-nav absolute bottom-0 left-0 right-0 flex items-center justify-between px-4]">
+      <div className="carousel-nav absolute bottom-4 left-0 right-0 flex items-center justify-between px-4">
         <button className="carousel-prev text-black p-2" onClick={scrollToPrevSlide}>
           <FontAwesomeIcon icon={faAngleLeft} />
         </button>
